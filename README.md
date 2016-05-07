@@ -185,3 +185,5 @@ sudo dpkg -i influxdb_0.12.2-1_amd64.deb
   read-buffer = 0 # UDP read buffer size, 0 means to use OS default
   typesdb = "/usr/share/collectd/types.db"
 ```
+* [best practice1](http://jessesnet.com/development-notes/2015/using-collectd-with-influxdb/)
+* [best practice2](https://sonnguyen.ws/monitor-server-with-collectd-influxdb-and-grafana/)
