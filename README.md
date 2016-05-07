@@ -16,6 +16,12 @@
 sudo apt-get update
 sudo apt-get install collectd collectd-utils
 ```
+* add FQDN
+```
+127.0.1.1       metric-aggregator.insator.org   metric-aggregator
+127.0.1.1       metric-crawler.insator.org      metric-crawler
+127.0.1.1       metric-repository.insator.org   metric-repository
+```
 * Configuration
   - vim `/etc/collectd/collectd.conf`
 ```
@@ -27,6 +33,24 @@ TypesDB "/usr/share/collectd/types.db"
 ...
 Interval 10
 ...
+```
+```
+LoadPlugin syslog
+LoadPlugin cpu
+LoadPlugin df
+LoadPlugin disk
+LoadPlugin entropy
+LoadPlugin interface
+LoadPlugin irq
+LoadPlugin load
+LoadPlugin memory
+LoadPlugin processes
+LoadPlugin rrdtool
+LoadPlugin swap
+LoadPlugin users
+```
+* syslog
+```
 LoadPlugin syslog
 #LoadPlugin log_logstash
 
@@ -38,5 +62,94 @@ LoadPlugin syslog
 #</Plugin>
 <Plugin syslog>
         LogLevel info
+</Plugin>
+```
+* cpu
+```
+<Plugin cpu>
+        ReportByCpu true
+        ReportByState true
+        ValuesPercentage false
+</Plugin>
+```
+* df
+```
+<Plugin df>
+        Device "/dev/sda1"
+#       Device "192.168.0.2:/mnt/nfs"
+        MountPoint "/home"
+        FSType "ext4"
+
+        # ignore rootfs; else, the root file-system would appear twice, causing
+        # one of the updates to fail and spam the log
+        FSType rootfs
+        # ignore the usual virtual / temporary file-systems
+        FSType sysfs
+        FSType proc
+        FSType devtmpfs
+        FSType devpts
+        FSType tmpfs
+        FSType fusectl
+        FSType cgroup
+        IgnoreSelected true
+
+#       ReportByDevice false
+#       ReportInodes false
+
+#       ValuesAbsolute true
+#       ValuesPercentage false
+</Plugin>
+```
+* interface
+```
+<Plugin interface>
+        Interface "eth0"
+        IgnoreSelected false
+</Plugin>
+```
+* load
+```
+<Plugin load>
+        ReportRelative true
+</Plugin>
+```
+* memory
+```
+<Plugin memory>
+        ValuesAbsolute true
+        ValuesPercentage false
+</Plugin>
+```
+* process
+```
+<Plugin processes>
+        Process "name"
+#       ProcessMatch "foobar" "/usr/bin/perl foobar\\.pl.*"
+</Plugin>
+```
+* rrdtool
+```
+<Plugin rrdtool>
+        DataDir "/var/lib/collectd/rrd"
+#       CacheTimeout 120
+#       CacheFlush 900
+#       WritesPerSecond 30
+#       CreateFilesAsync false
+#       RandomTimeout 0
+#
+# The following settings are rather advanced
+# and should usually not be touched:
+#       StepSize 10
+#       HeartBeat 20
+#       RRARows 1200
+#       RRATimespan 158112000
+#       XFF 0.1
+</Plugin>
+```
+* swap
+```
+<Plugin swap>
+        ReportByDevice false
+        ReportBytes true
 </Plugin>
 ```
