@@ -10,6 +10,17 @@
 5. Metric Dashboard : Metric Repositoy를 DataSource로 사용하여 시계열 그래프로 Metric정보를 표시해 주는 역할
   - Grafana
 
+
+## common
+```
+ulimit -n 65536
+```
+* change limits(`/etc/security/limits.conf`)
+```
+* 		hard	nofile		65536
+* 		soft	nofile		65536
+```
+
 ## 1. collectD
 * [install](https://www.digitalocean.com/community/tutorials/how-to-configure-collectd-to-gather-system-metrics-for-graphite-on-ubuntu-14-04)
 ```
@@ -153,3 +164,12 @@ LoadPlugin syslog
         ReportBytes true
 </Plugin>
 ```
+
+
+## InfluxDB
+* Install
+```
+wget https://dl.influxdata.com/influxdb/releases/influxdb_0.12.2-1_amd64.deb
+sudo dpkg -i influxdb_0.12.2-1_amd64.deb
+```
+* [config](https://github.com/influxdata/influxdb/blob/master/services/collectd/README.md)
