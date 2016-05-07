@@ -173,3 +173,15 @@ wget https://dl.influxdata.com/influxdb/releases/influxdb_0.12.2-1_amd64.deb
 sudo dpkg -i influxdb_0.12.2-1_amd64.deb
 ```
 * [config](https://github.com/influxdata/influxdb/blob/master/services/collectd/README.md)
+```
+[[collectd]]
+  enabled = true
+  bind-address = ":25826" # the bind address
+  database = "collectd" # Name of the database that will be written to
+  retention-policy = ""
+  batch-size = 5000 # will flush if this many points get buffered
+  batch-pending = 10 # number of batches that may be pending in memory
+  batch-timeout = "10s"
+  read-buffer = 0 # UDP read buffer size, 0 means to use OS default
+  typesdb = "/usr/share/collectd/types.db"
+```
