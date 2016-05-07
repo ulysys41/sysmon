@@ -9,3 +9,34 @@
   - InfluxDB
 5. Metric Dashboard : Metric Repositoy를 DataSource로 사용하여 시계열 그래프로 Metric정보를 표시해 주는 역할
   - Grafana
+
+## 1. collectD
+* [install](https://www.digitalocean.com/community/tutorials/how-to-configure-collectd-to-gather-system-metrics-for-graphite-on-ubuntu-14-04)
+```
+sudo apt-get update
+sudo apt-get install collectd collectd-utils
+```
+* Configuration
+  - vim `/etc/collectd/collectd.conf`
+```
+#Hostname "localhost"
+FQDNLookup true
+BaseDir "/var/lib/collectd"
+PluginDir "/usr/lib/collectd"
+TypesDB "/usr/share/collectd/types.db"
+...
+Interval 10
+...
+LoadPlugin syslog
+#LoadPlugin log_logstash
+
+#<Plugin logfile>
+#       LogLevel "info"
+#       File STDOUT
+#       Timestamp true
+#       PrintSeverity false
+#</Plugin>
+<Plugin syslog>
+        LogLevel info
+</Plugin>
+```
